@@ -1,4 +1,23 @@
-// By: Deepseek
+//
+//  Pokemon.swift
+//  pokedex
+//
+//  Created by Aluno Mack on 19/03/25.
+//
+
+import SwiftUI
+
+struct Pokemon: View {
+    var body: some View {
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    }
+}
+
+struct Pokemon_Previews: PreviewProvider {
+    static var previews: some View {
+        Pokemon()
+    }
+}
 
 enum ElementType: String {
     case grass
