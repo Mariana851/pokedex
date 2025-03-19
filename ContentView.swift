@@ -1,0 +1,30 @@
+//
+//  ContentView.swift
+//  pokedex
+//
+//  Created by Aluno Mack on 19/03/25.
+//
+
+import SwiftUI
+
+struct ContentView: View {
+    var body: some View {
+        TabView {
+            pokedex()
+                .tabItem{
+                    Label("Pokedex", systemImage: "cricket.ball.fill")
+                }
+            estatistica()
+                .tabItem{
+                    Label("Estatísticas", systemImage: "chart.xyaxis.line")
+                }
+        }
+    }
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
+    }
+}
+
