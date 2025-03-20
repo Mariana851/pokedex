@@ -2,7 +2,7 @@
 //  pokedexApp.swift
 //  pokedex
 //
-//  Created by Aluno Mack on 19/03/25.
+//  Created by Aluno Mack on 20/03/25.
 //
 
 import SwiftUI

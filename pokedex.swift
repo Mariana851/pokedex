@@ -1,29 +1,42 @@
 import SwiftUI
 
 struct pokedex: View {
-    @State var items = [1, 2, 3, 4, 5]
-
+    @State private var showsheet = false
+    @State var pokemonSelected: Pokemon = Pokemon(id: 1, name: "", types: [.dark])
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
-                ForEach(items, id: \.self) { item in
-                    Rectangle()
-                        .foregroundColor(.gray)
-                        .frame(height: 100)
-                        .cornerRadius(10)
+                ForEach(pokemons) { pokemon in
+                    ZStack {
+                        Rectangle()
+                            .foregroundColor(.gray)
+                            .frame(height: 100)
+                            .cornerRadius(20)
+                            .padding(5)
+                        Text(pokemon.name)
+                        
+                    }
+                    .onTapGesture {
+                        pokemonSelected = pokemon
+                        showsheet.toggle()
+                    }
                 }
             }
-        }
-        .onTapGesture {
-            withAnimation {
-                items.shuffle()
+            .onTapGesture {
             }
+            .sheet(isPresented: $showsheet, content: {
+                PokemonView(pokemon: pokemonSelected)
+            })
         }
+        
+        
     }
-}
-
-struct pokedex_Previews: PreviewProvider {
-    static var previews: some View {
-        pokedex()
+    //}
+    //}
+    
+    struct pokedex_Previews: PreviewProvider {
+        static var previews: some View {
+            pokedex()
+        }
     }
 }
