@@ -7,16 +7,16 @@ struct ContentView: View {
                 .tabItem{
                     Label("Pokedex", systemImage: "cricket.ball.fill")
                 }
-            estatistica()
+            estatisticaView()
                 .tabItem{
                     Label("Estatísticas", systemImage: "chart.xyaxis.line")
                 }
         }
     }
-    
-    struct ContentView_Previews: PreviewProvider {
-        static var previews: some View {
-            ContentView()
-        }
+}
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
     }
 }

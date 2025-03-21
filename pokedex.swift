@@ -2,7 +2,7 @@ import SwiftUI
 
 struct pokedex: View {
     @State private var showsheet = false
-    @State var pokemonSelected: Pokemon = Pokemon(id: 1, name: "", types: [.dark])
+    @State var pokemonSelected: Pokemon = Pokemon(id: 1, name: "", types: [.dark], stats: PokemonStats(hp: 1, attack: 1, defense: 1, speed: 1))
     var body: some View {
         ScrollView {
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 100))]) {
@@ -14,7 +14,6 @@ struct pokedex: View {
                             .cornerRadius(20)
                             .padding(5)
                         Text(pokemon.name)
-                        
                     }
                     .onTapGesture {
                         pokemonSelected = pokemon
@@ -26,6 +25,7 @@ struct pokedex: View {
             }
             .sheet(isPresented: $showsheet, content: {
                 PokemonView(pokemon: pokemonSelected)
+                
             })
         }
         
