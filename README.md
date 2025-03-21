@@ -7,7 +7,7 @@ TÓPICOS SLIDE:
 - CÓDIGOS UTILIZADOS
 (Prints)
 
-códigos promissores para as imagens:
+# códigos promissores para as imagens:
 struct ScrollPokedex: View {
   var body :some View {
     ScrollView{
@@ -20,7 +20,7 @@ struct ScrollPokedex: View {
             .font(.largeTitle)
         }
 
-ou:
+# ou:
 
 import SwiftUI
 
@@ -30,7 +30,7 @@ struct Pokemon: Identifiable {
     let types: [PokemonType]
 
     var imageName: String {
-        name.lowercased() // Supondo que a imagem tenha o mesmo nome do Pokémon em minúsculas
+        "\(id)" // Usa o ID como nome da imagem (exemplo: "1.png", "25.png")
     }
 }
 
@@ -72,7 +72,7 @@ struct PokemonView: View {
 
     var body: some View {
         VStack {
-            Image(pokemon.imageName) // Exibe a imagem correspondente ao Pokémon
+            Image(pokemon.imageName) // Agora carrega a imagem pelo ID
                 .resizable()
                 .scaledToFit()
                 .frame(width: 200, height: 200)
@@ -87,13 +87,85 @@ struct PokemonView: View {
 // Dados fictícios para teste
 let pokemons = [
     Pokemon(id: 1, name: "Bulbasaur", types: [.grass, .poison]),
-    Pokemon(id: 2, name: "Charmander", types: [.fire]),
-    Pokemon(id: 3, name: "Squirtle", types: [.water]),
-    Pokemon(id: 4, name: "Pikachu", types: [.electric])
+    Pokemon(id: 4, name: "Charmander", types: [.fire]),
+    Pokemon(id: 7, name: "Squirtle", types: [.water]),
+    Pokemon(id: 25, name: "Pikachu", types: [.electric])
 ]
 
 struct pokedex_Previews: PreviewProvider {
     static var previews: some View {
         pokedex()
+    }
+}
+
+# codigo para estatistica
+struct Pokemon: Identifiable {
+    let id: Int
+    let name: String
+    let types: [PokemonType]
+    let stats: PokemonStats  // Adicionamos estatísticas
+
+    var imageName: String {
+        "\(id)" // Usa o ID como nome da imagem
+    }
+}
+
+struct PokemonStats {
+    let hp: Int
+    let attack: Int
+    let defense: Int
+    let speed: Int
+}
+
+struct PokemonStatsView: View {
+    var body: some View {
+        NavigationView {
+            List(pokemons) { pokemon in
+                NavigationLink(destination: PokemonDetailView(pokemon: pokemon)) {
+                    HStack {
+                        Image(pokemon.imageName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 50, height: 50)
+                        VStack(alignment: .leading) {
+                            Text(pokemon.name)
+                                .font(.headline)
+                            Text("HP: \(pokemon.stats.hp), ATK: \(pokemon.stats.attack), DEF: \(pokemon.stats.defense)")
+                                .font(.subheadline)
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Estatísticas")
+        }
+    }
+}
+
+struct PokemonDetailView: View {
+    var pokemon: Pokemon
+
+    var body: some View {
+        VStack {
+            Image(pokemon.imageName)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200)
+
+            Text(pokemon.name)
+                .font(.largeTitle)
+                .padding()
+
+            VStack(alignment: .leading, spacing: 10) {
+                Text("💖 HP: \(pokemon.stats.hp)")
+                Text("⚔️ Ataque: \(pokemon.stats.attack)")
+                Text("🛡 Defesa: \(pokemon.stats.defense)")
+                Text("⚡ Velocidade: \(pokemon.stats.speed)")
+            }
+            .font(.title2)
+            .padding()
+
+            Spacer()
+        }
+        .navigationTitle(pokemon.name)
     }
 }
