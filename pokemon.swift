@@ -7,17 +7,11 @@
 
 import SwiftUI
 
-//struct Pokemon: View {
-//    var body: some View {
-//        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-//    }
-//}
-//
-//struct Pokemon_Previews: PreviewProvider {
-//    static var previews: some View {
-//        pokemon()
-//    }
-//}
+struct Pokemon: Identifiable {
+    var id: Int
+    var name: String
+    var types: [ElementType]
+}
 
 enum ElementType: String {
     case grass
@@ -38,12 +32,6 @@ enum ElementType: String {
     case steel
     case fighting
     case ghost
-}
-
-struct Pokemon: Identifiable {
-    var id: Int
-    var name: String
-    var types: [ElementType]
 }
 
 let pokemons: [Pokemon] = [
