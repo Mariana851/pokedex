@@ -169,3 +169,127 @@ struct PokemonDetailView: View {
         .navigationTitle(pokemon.name)
     }
 }
+
+# estatistica com gráfico:
+import SwiftUI
+import Charts  // Biblioteca para gráficos
+
+// Definição dos dados do Pokémon
+struct Pokemon: Identifiable {
+    let id: Int
+    let name: String
+    let types: [PokemonType]
+    let stats: PokemonStats
+
+    var imageName: String {
+        "\(id)" // Usa o ID como nome da imagem
+    }
+}
+
+// Estrutura para os status do Pokémon
+struct PokemonStats {
+    let hp: Int
+    let attack: Int
+    let defense: Int
+    let speed: Int
+}
+
+// Tipos de Pokémon (apenas exemplo)
+enum PokemonType {
+    case fire, water, grass, electric, psychic, dark, fairy, bug, rock
+}
+
+// Tela da aba de estatísticas
+struct PokemonStatsView: View {
+    @State private var selectedPokemon: Pokemon?  // Pokémon selecionado para o gráfico
+
+    var body: some View {
+        NavigationView {
+            VStack {
+                List(pokemons) { pokemon in
+                    Button(action: {
+                        selectedPokemon = pokemon  // Atualiza o Pokémon selecionado
+                    }) {
+                        HStack {
+                            Image(pokemon.imageName)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 50, height: 50)
+                            VStack(alignment: .leading) {
+                                Text(pokemon.name)
+                                    .font(.headline)
+                            }
+                        }
+                    }
+                }
+                .navigationTitle("Estatísticas")
+
+                if let pokemon = selectedPokemon {
+                    PokemonChartView(pokemon: pokemon)  // Exibe o gráfico do Pokémon selecionado
+                        .padding()
+                } else {
+                    Text("Selecione um Pokémon para ver as estatísticas")
+                        .foregroundColor(.gray)
+                        .padding()
+                }
+            }
+        }
+    }
+}
+
+// Tela do gráfico do Pokémon selecionado
+struct PokemonChartView: View {
+    var pokemon: Pokemon
+
+    var body: some View {
+        VStack {
+            Text("Estatísticas de \(pokemon.name)")
+                .font(.title2)
+                .padding()
+
+            Chart {
+                BarMark(x: .value("Stat", "HP"), y: .value("Valor", pokemon.stats.hp))
+                    .foregroundStyle(.red)
+
+                BarMark(x: .value("Stat", "Ataque"), y: .value("Valor", pokemon.stats.attack))
+                    .foregroundStyle(.orange)
+
+                BarMark(x: .value("Stat", "Defesa"), y: .value("Valor", pokemon.stats.defense))
+                    .foregroundStyle(.blue)
+
+                BarMark(x: .value("Stat", "Velocidade"), y: .value("Valor", pokemon.stats.speed))
+                    .foregroundStyle(.green)
+            }
+            .frame(height: 300)  // Altura do gráfico
+
+            Spacer()
+        }
+    }
+}
+
+// Dados de exemplo dos Pokémon
+let pokemons = [
+    Pokemon(id: 1, name: "Bulbasaur", types: [.grass, .poison], stats: PokemonStats(hp: 45, attack: 49, defense: 49, speed: 45)),
+    Pokemon(id: 4, name: "Charmander", types: [.fire], stats: PokemonStats(hp: 39, attack: 52, defense: 43, speed: 65)),
+    Pokemon(id: 7, name: "Squirtle", types: [.water], stats: PokemonStats(hp: 44, attack: 48, defense: 65, speed: 43)),
+    Pokemon(id: 25, name: "Pikachu", types: [.electric], stats: PokemonStats(hp: 35, attack: 55, defense: 40, speed: 90))
+]
+
+// Abas do app (TabView)
+struct ContentView: View {
+    var body: some View {
+        TabView {
+            pokedex()
+                .tabItem {
+                    Image(systemName: "list.bullet")
+                    Text("Pokédex")
+                }
+
+            PokemonStatsView()
+                .tabItem {
+                    Image(systemName: "chart.bar.fill")
+                    Text("Estatísticas")
+                }
+        }
+    }
+}
