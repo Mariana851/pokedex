@@ -1,5 +1,5 @@
 # pokedex
-Aplicativo para iOS sobre pokemons e seus estatísticas
+Aplicativo para iOS sobre pokemons e suas estatísticas
 
 
 TÓPICOS SLIDE:
